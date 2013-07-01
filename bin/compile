@@ -1,0 +1,60 @@
+#!/bin/bash
+# usage: bin/compile <build-dir> <cache-dir>
+
+set -eo pipefail
+
+mkdir -p "$1" "$2"
+build=$(cd "$1/" && pwd)
+cache=$(cd "$2/" && pwd)
+ver=${GOVERSION:-1.1.1}
+file=${GOFILE:-go$ver.$(uname|tr A-Z a-z)-amd64.tar.gz}
+url=${GOURL:-http://go.googlecode.com/files/$file}
+buildpack=$(dirname $(dirname $0))
+
+if ! test -f $build/.godir
+then
+    echo >&2 " !     A .godir is required. For instructions:"
+    echo >&2 " !     http://mmcgrana.github.com/2012/09/getting-started-with-go-on-heroku"
+    exit 1
+fi
+
+if test -e $build/bin && ! test -d $build/bin
+then
+    echo >&2 " !     File bin exists and is not a directory."
+    exit 1
+fi
+
+if test -d $cache/go-$ver/go
+then
+    echo "-----> Using Go $ver"
+else
+    rm -rf $cache/* # be sure not to build up cruft
+    mkdir -p $cache/go-$ver
+    cd $cache/go-$ver
+    echo -n "-----> Installing Go $ver..."
+    curl -sO $url
+    tar zxf $file
+    rm -f $file
+    echo " done"
+fi
+
+GOROOT=$cache/go-$ver/go export GOROOT
+GOPATH=$build/.heroku/g export GOPATH
+PATH=$GOROOT/bin:$PATH
+
+name=$(cat $build/.godir)
+p=$GOPATH/src/$name
+mkdir -p $p
+cp -R $build/* $p
+
+unset GIT_DIR # unset git dir or it will mess with goinstall
+echo "-----> Running: go get -tags heroku ./..."
+cd $p
+go get -tags heroku ./...
+
+mkdir -p $build/bin
+mv $GOPATH/bin/* $build/bin
+rm -rf $build/.heroku
+
+mkdir -p $build/.profile.d
+echo 'export PATH=$PATH:$HOME/bin' > $build/.profile.d/go.sh
