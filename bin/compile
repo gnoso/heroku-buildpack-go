@@ -11,10 +11,9 @@ file=${GOFILE:-go$ver.$(uname|tr A-Z a-z)-amd64.tar.gz}
 url=${GOURL:-http://go.googlecode.com/files/$file}
 buildpack=$(dirname $(dirname $0))
 
-if ! test -f $build/.godir
+if ! test -f $build/.gobuild
 then
-    echo >&2 " !     A .godir is required. For instructions:"
-    echo >&2 " !     http://mmcgrana.github.com/2012/09/getting-started-with-go-on-heroku"
+    echo >&2 " !     A .gobuild script is required."
     exit 1
 fi
 
@@ -48,9 +47,9 @@ mkdir -p $p
 cp -R $build/* $p
 
 unset GIT_DIR # unset git dir or it will mess with goinstall
-echo "-----> Running: go get -tags heroku ./..."
+echo "-----> Running .gobuild"
 cd $p
-go get -tags heroku ./...
+.gobuild
 
 mkdir -p $build/bin
 mv $GOPATH/bin/* $build/bin
