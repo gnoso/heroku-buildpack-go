@@ -53,9 +53,10 @@ mkdir -p $p
 cp -R $build/* $p
 
 unset GIT_DIR # unset git dir or it will mess with goinstall
-echo "-----> Running .gobuild"
 cd $p
+echo "-----> Go Dependencies: go get"
 go get ./...
+echo "-----> Running .gobuild"
 $build/.gobuild $p
 
 mkdir -p $build/bin
