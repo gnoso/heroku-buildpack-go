@@ -45,14 +45,15 @@ p=$GOPATH/src/$build
 mkdir -p $p
 cp -R $build/* $p
 
-#unset GIT_DIR # unset git dir or it will mess with goinstall
-#echo "-----> Running .gobuild"
-#cd $p
-#./.gobuild
-#
-#mkdir -p $build/bin
-#mv $GOPATH/bin/* $build/bin
-#rm -rf $build/.heroku
-#
-#mkdir -p $build/.profile.d
-#echo 'export PATH=$PATH:$HOME/bin' > $build/.profile.d/go.sh
+unset GIT_DIR # unset git dir or it will mess with goinstall
+echo "-----> Running .gobuild"
+cd $p
+ls -la
+bash .gobuild
+
+mkdir -p $build/bin
+mv $GOPATH/bin/* $build/bin
+rm -rf $build/.heroku
+
+mkdir -p $build/.profile.d
+echo 'export PATH=$PATH:$HOME/bin' > $build/.profile.d/go.sh
