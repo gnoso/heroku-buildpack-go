@@ -41,8 +41,7 @@ GOROOT=$cache/go-$ver/go export GOROOT
 GOPATH=$build/.heroku/g export GOPATH
 PATH=$GOROOT/bin:$PATH
 
-name=$(cat $build/.godir)
-p=$GOPATH/src/$name
+p=$GOPATH/src/$build
 mkdir -p $p
 cp -R $build/* $p
 
