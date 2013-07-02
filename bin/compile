@@ -11,6 +11,12 @@ file=${GOFILE:-go$ver.$(uname|tr A-Z a-z)-amd64.tar.gz}
 url=${GOURL:-http://go.googlecode.com/files/$file}
 buildpack=$(dirname $(dirname $0))
 
+if ! test -f $build/.godir
+then
+    echo >&2 " !     A .godir is required."
+    exit 1
+fi
+
 if ! test -f $build/.gobuild
 then
     echo >&2 " !     A .gobuild script is required."
@@ -41,7 +47,8 @@ GOROOT=$cache/go-$ver/go export GOROOT
 GOPATH=$build/.heroku/g export GOPATH
 PATH=$GOROOT/bin:$PATH
 
-p=$GOPATH/src/$build
+name=$(cat $build/.godir)
+p=$GOPATH/src/$name
 mkdir -p $p
 cp -R $build/* $p
 
