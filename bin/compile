@@ -55,7 +55,7 @@ cp -R $build/* $p
 unset GIT_DIR # unset git dir or it will mess with goinstall
 cd $p
 echo "-----> Go Dependencies: go get"
-go get ./...
+go get $name
 echo "-----> Running .gobuild"
 $build/.gobuild $p
 
