@@ -35,6 +35,7 @@ cd $cache
 curl -L $dartsdk -O
 jar xf dartsdk-linux-x64-release.zip
 cp -r $cache/dart-sdk /app
+chmod +x /app/dart-sdk/bin/*
 PATH=/app/dart-sdk/bin:$PATH
 # done
 
