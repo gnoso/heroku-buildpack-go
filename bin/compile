@@ -30,13 +30,13 @@ then
 fi
 
 # install dart sdk
-dartsdk="http://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip"
-cd $cache
-curl -L $dartsdk -O
-jar xf dartsdk-linux-x64-release.zip
-cp -r $cache/dart-sdk /app
-chmod +x /app/dart-sdk/bin/*
-PATH=/app/dart-sdk/bin:$PATH
+#dartsdk="http://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip"
+#cd $cache
+#curl -L $dartsdk -O
+#jar xf dartsdk-linux-x64-release.zip
+#cp -r $cache/dart-sdk /app
+#chmod +x /app/dart-sdk/bin/*
+#PATH=/app/dart-sdk/bin:$PATH
 # done
 
 if test -d $cache/go-$ver/go
