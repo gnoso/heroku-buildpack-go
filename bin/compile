@@ -30,9 +30,9 @@ then
 fi
 
 # install dart sdk
-dartsdk="http://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip"
+dartsdk="http://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.tar.gz"
 cd $cache
-curl -L $dartsdk -o - | tar xzf -
+curl -L $dartsdk -o - | tar xvzf -
 cp -r $cache/dart-sdk /app
 PATH=/app/dart-sdk/bin:$PATH
 # done
